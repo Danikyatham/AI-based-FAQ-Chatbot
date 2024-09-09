@@ -1,0 +1,12 @@
+# AI-Based FAQ Chatbot Project Dependencies
+# To install the required packages, run the following command:
+# pip install -r requirements.txt
+
+Flask
+SpeechRecognition
+pyaudio
+Flask-CORS
+
+# If you encounter issues with PyAudio, consider downloading the wheel file
+# from https://www.lfd.uci.edu/~gohlke/pythonlibs/#pyaudio and install it using:
+# pip install path_to_wheel_file.whl

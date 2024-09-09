@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/66aa7c98b3.js" crossorigin="anonymous"></script>
+    <title>AI Chatbot with Voice Assistance</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #c3e3f3; /* Light blue background */
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .hidden {
+            display: none;
+        }
+        header {
+            background-color: #0f5d52;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        nav ul li {
+            display: inline;
+            margin-right: 10px;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+        }
+        .section {
+            padding: 20px;
+        }
+        .intro {
+            text-align: center;
+            padding: 50px;
+        }
+        .intro h2 {
+            font-size: 36px;
+        }
+        .intro p {
+            font-size: 18px;
+        }
+        .intro button {
+            background-color: #000000;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .intro button:hover {
+            background-color: #044206;
+        }
+        .chat-container {
+            width: 80%;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid #4b4a4a;
+            background-color: #ffffff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        .chat-box {
+            height: 100px;
+            overflow-y: auto;
+            border: 1px solid #4b4a4a;
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+        }
+        .user-message {
+            background-color: #d1e7dd;
+            margin-bottom: 5px;
+            padding: 5px;
+            border-radius: 5px;
+        }
+        .bot-message {
+            background-color: #e2e3e5;
+            margin-bottom: 5px;
+            padding: 5px;
+            border-radius: 5px;
+        }
+        .input-container {
+            display: flex;
+            align-items: center;
+        }
+        #user-input {
+            flex: 1;
+            margin-right: 5px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+        #voice-btn, #send-btn, #toggle-voice-btn {
+            width: 40px;
+            height: 40px;
+            padding: 5px;
+            background-color: #000000;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-left: 5px;
+            display: inline-block;
+        }
+        #voice-btn.recording {
+            background-color: #0a6219; /* Red when recording */
+        }
+        footer {
+            background-color: #2699a1;
+            color: white;
+            text-align: center;
+            padding: 1px;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+        .about-container {
+            text-align: center;
+            padding: 20px;
+        }
+        .about-container h2 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        .about-container p {
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        .about-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#" onclick="showSection('landing')">Home</a></li>
+                <li><a href="#" onclick="showSection('about')">About</a></li>
+            </ul>
+        </nav>
+        <h1>AI Chatbot with Voice Assistance</h1>
+    </header>
+
+    <!-- Landing Page Section -->
+    <section id="landing" class="section">
+        <div class="intro">
+            <h2>Welcome to Our AI Chatbot</h2>
+            <p>Experience the future of communication with our AI-powered chatbot featuring voice assistance.</p>
+            <button onclick="showSection('chatbot')">Try the Chatbot</button>
+        </div>
+    </section>
+
+    <!-- Chatbot Page Section -->
+    <section id="chatbot" class="section hidden">
+        <div class="chat-container">
+            <div class="chat-box" id="chat-box"></div>
+            <div class="input-container">
+                <textarea id="user-input" placeholder="Type your message..."></textarea>
+                <button id="toggle-voice-btn"><i class="fas fa-volume-up"></i></button> <!-- Toggle Voice icon -->
+                <button id="voice-btn"><i class="fas fa-microphone"></i></button> <!-- Mic icon -->
+                <button id="send-btn"><i class="fas fa-paper-plane"></i></button> <!-- Send icon -->
+            </div>
+        </div>
+    </section>
+
+    <!-- About Page Section -->
+    <section id="about" class="section hidden">
+        <div class="about-container">
+            <h2>About Us</h2>
+            <p>We are dedicated to advancing the field of AI and machine learning, providing innovative solutions for communication and interaction. Our AI chatbot is designed to enhance user experience with seamless voice assistance and intelligent responses.</p>
+            <img src="https://cdn.pixabay.com/photo/2024/03/09/17/27/ai-generated-8623019_1280.jpg" alt="About Us Image ">    <br>
+                <p.>NOTE: use training data to test <br>
+                responses <br>
+                "hi": "hello" <br>
+                "hi chatbot.": "hello user, how can I assist you today" <br>              
+                "hi chatbot": "hello user, how can I help you today"<br>
+                "who created you?": "I have been developed by Mr. Daniel."<br>
+            </p>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 AI Chatbot. All rights reserved.</p>
+    </footer>
+
+    <script>
+        let voiceAssistanceEnabled = true; // Track the voice assistance state
+
+        function showSection(sectionId) {
+            document.getElementById('landing').classList.add('hidden');
+            document.getElementById('chatbot').classList.add('hidden');
+            document.getElementById('about').classList.add('hidden');
+            document.getElementById(sectionId).classList.remove('hidden');
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const chatBox = document.getElementById('chat-box');
+            const userInput = document.getElementById('user-input');
+            const sendBtn = document.getElementById('send-btn');
+            const voiceBtn = document.getElementById('voice-btn');
+            const toggleVoiceBtn = document.getElementById('toggle-voice-btn');
+
+            sendBtn.addEventListener('click', function() {
+                sendMessage();
+            });
+
+            voiceBtn.addEventListener('click', function() {
+                startVoiceRecognition();
+            });
+
+            toggleVoiceBtn.addEventListener('click', function() {
+                toggleVoiceAssistance();
+            });
+
+            userInput.addEventListener('keydown', function(event) {
+                if (event.key === 'Enter') {
+                    event.preventDefault(); // Prevent the default action (form submission or newline)
+                    sendMessage();
+                }
+            });
+
+            function sendMessage() {
+                const message = userInput.value.trim();
+                if (message !== '') {
+                    displayMessage('You', message);
+                    userInput.value = '';
+                    
+                    fetch('/api/chatbot', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ message: message })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        const botResponse = data.bot_response;
+                        displayMessage('🤖Chatbot', botResponse);
+                        if (voiceAssistanceEnabled) {
+                            speak(botResponse); // Speak out the bot's response if voice assistance is enabled
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        displayMessage('🤖Chatbot', 'Sorry, there was an error processing your request.');
+                    });
+                }
+            }
+
+            function startVoiceRecognition() {
+                if (window.SpeechRecognition || window.webkitSpeechRecognition) {
+                    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+                    recognition.lang = 'en-US';
+
+                    // Change the button to indicate recording
+                    voiceBtn.innerHTML = '<i class="fas fa-microphone-slash"></i>'; // Change icon to microphone slash
+                    voiceBtn.classList.add('recording'); // Add recording class to change color
+
+                    // Start speech recognition
+                    recognition.start();
+
+                    // Event handler for recognition results
+                    recognition.onresult = function(event) {
+                        const transcript = event.results[0][0].transcript.trim();
+                        userInput.value = transcript;
+                        sendMessage();
+                    };
+
+                    // Event handler for recognition end
+                    recognition.onend = function() {
+                        voiceBtn.innerHTML = '<i class="fas fa-microphone"></i>'; // Change icon back to microphone
+                        voiceBtn.classList.remove('recording'); // Remove recording class to change color back
+                    };
+
+                    // Event handler for recognition errors
+                    recognition.onerror = function(event) {
+                        console.error('Recognition error:', event.error);
+                        displayMessage('🤖Chatbot', 'Sorry, there was an error with voice recognition.');
+                        voiceBtn.innerHTML = '<i class="fas fa-microphone"></i>'; // Change icon back to microphone
+                        voiceBtn.classList.remove('recording'); // Remove recording class to change color back
+                    };
+                } else {
+                    alert('Speech recognition not supported in this browser.');
+                }
+            }
+
+            function toggleVoiceAssistance() {
+                voiceAssistanceEnabled = !voiceAssistanceEnabled; // Toggle the state
+                toggleVoiceBtn.innerHTML = voiceAssistanceEnabled ? '<i class="fas fa-volume-up"></i>' : '<i class="fas fa-volume-mute"></i>'; // Change icon
+            }
+
+            function displayMessage(sender, message) {
+                const messageElement = document.createElement('div');
+                messageElement.classList.add(sender === 'You' ? 'user-message' : 'bot-message');
+                messageElement.textContent = sender + ': ' + message;
+                chatBox.appendChild(messageElement);
+                chatBox.scrollTop = chatBox.scrollHeight; // Scroll to the bottom
+            }
+
+            function speak(text) {
+                const utterance = new SpeechSynthesisUtterance(text);
+                window.speechSynthesis.speak(utterance);
+            }
+        });
+    </script>
+</body>
+</html>
