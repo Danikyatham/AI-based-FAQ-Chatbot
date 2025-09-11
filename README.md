@@ -1,18 +1,24 @@
-👋 Hi, I’m Daniel Kyatham
-🚀 Aspiring Data Analyst | MCA Graduate | Passionate about solving business problems with data
+Daniel – Data Analyst Chatbot
 
-🔹 About Me
-Skilled in SQL, Python, and Excel
-Interested in Data Visualization & Analytics
-Currently learning Advanced SQL & Dashboarding
-Goal: Transform raw data into meaningful insights that drive smarter decisions
+Fun project, 
+This is a Flask-based chatbot designed to simulate an interview or casual Q&A with a Data Analyst persona — Daniel.
+It answers typical questions about data analysis, skills, projects, and background, while also handling small talk and contact details like me .
 
-🛠️ Skills
-Languages/Tools: SQL | Python | Excel
-Data Handling: Data Cleaning, Data Wrangling
-Visualization: Charts, Dashboards, Storytelling with Data
-Other Interests: Machine Learning basics, ETL concepts
+The project demonstrates:
+Flask (Python backend)
+REST API endpoints (/api/chatbot)
+Rule-based Natural language processing (keyword matching)
+Voice transcription support via SpeechRecognition
 
-📂 Featured Project
-🔹 AI-FAQ-Chatbot
- – Built an interactive chatbot to answer FAQs, showcasing problem-solving & automation skills.
+
+🚀 Features
+💬 Chatbot trained with Data Analyst–themed responses
+🎙️ Voice-to-Text Support (Google Speech Recognition)
+📜 Fallback responses for unrecognized input
+🎨 Clean UI with scrollable, ChatGPT-like layout
+📊 Interview-style Q&A covering:
+
+
+Contact details 
+email : daniikyatham@gmail.com
+
