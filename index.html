@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://kit.fontawesome.com/66aa7c98b3.js" crossorigin="anonymous"></script>
-    <title>AI Chatbot with Voice Assistance</title>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js" crossorigin="anonymous"></script>
+<title>Mini Daniel - Data Analyst Chatbo</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #c3e3f3; /* Light blue background */
+            background-color: #e6f2f8;
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -114,8 +114,40 @@
             margin-left: 5px;
             display: inline-block;
         }
+        #voice-btn:hover {
+            background-color: #bb2d3b;
+        }
+        #send-btn:hover {
+            background-color: #bb2d3b;
+        }
+        #toggle-voice-btn:hover {
+            background-color: #bb2d3b;
+        }
         #voice-btn.recording {
             background-color: #0a6219; /* Red when recording */
+        }
+        #loading {
+            text-align: center;
+            margin-top: 10px;
+            color: #0f5d52;
+            font-weight: bold;
+        }
+
+        #clear-chat-btn {
+            width: 40px;
+            height: 40px;
+            padding: 5px;
+            background-color: #000000;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-left: 5px;
+            display: inline-block;
+        }
+
+        #clear-chat-btn:hover {
+            background-color: #bb2d3b;
         }
         footer {
             background-color: #2699a1;
@@ -154,15 +186,15 @@
                 <li><a href="#" onclick="showSection('about')">About</a></li>
             </ul>
         </nav>
-        <h1>AI Chatbot with Voice Assistance</h1>
+        <h1>TALK TO DANIEL</h1>
     </header>
 
     <!-- Landing Page Section -->
     <section id="landing" class="section">
         <div class="intro">
-            <h2>Welcome to Our AI Chatbot</h2>
-            <p>Experience the future of communication with our AI-powered chatbot featuring voice assistance.</p>
-            <button onclick="showSection('chatbot')">Try the Chatbot</button>
+            <h2>Welcome!</h2>
+            <p>"Get to know me better - click to chat."</p>
+            <button onclick="showSection('chatbot')">Start conversation</button>
         </div>
     </section>
 
@@ -170,11 +202,13 @@
     <section id="chatbot" class="section hidden">
         <div class="chat-container">
             <div class="chat-box" id="chat-box"></div>
+            <div id="loading" class="hidden">Processing...</div>
             <div class="input-container">
                 <textarea id="user-input" placeholder="Type your message..."></textarea>
                 <button id="toggle-voice-btn"><i class="fas fa-volume-up"></i></button> <!-- Toggle Voice icon -->
                 <button id="voice-btn"><i class="fas fa-microphone"></i></button> <!-- Mic icon -->
                 <button id="send-btn"><i class="fas fa-paper-plane"></i></button> <!-- Send icon -->
+                <button id="clear-chat-btn"><i class="fas fa-trash"></i></button> <!-- Clear icon -->
             </div>
         </div>
     </section>
@@ -182,26 +216,31 @@
     <!-- About Page Section -->
     <section id="about" class="section hidden">
         <div class="about-container">
-            <h2>About Us</h2>
-            <p>We are dedicated to advancing the field of AI and machine learning, providing innovative solutions for communication and interaction. Our AI chatbot is designed to enhance user experience with seamless voice assistance and intelligent responses.</p>
-            <img src="https://cdn.pixabay.com/photo/2024/03/09/17/27/ai-generated-8623019_1280.jpg" alt="About Us Image ">    <br>
-                <p.>NOTE: use training data to test <br>
-                responses <br>
-                "hi": "hello" <br>
-                "hi chatbot.": "hello user, how can I assist you today" <br>              
-                "hi chatbot": "hello user, how can I help you today"<br>
-                "who created you?": "I have been developed by Mr. Daniel."<br>
+            <h2>About me</h2>
+            <p>I am Daniel, a dedicated and ambitious professional with a Master’s degree in Computer Applications from Hyderabad. My academic background, combined with practical experience in customer service and technical support, has equipped me with strong problem-solving abilities, communication skills, and an analytical mindset. My interest in analytics began at an early age, inspired by my father, who meticulously recorded household expenses, purchases, and calculations in his notebooks. Observing his discipline sparked my curiosity about how information, when structured and analyzed, could tell powerful stories and influence decision-making. This fascination matured into a career goal — to pursue Data Analytics and contribute to organizations through data-driven strategies. <br>
+
+<p>Professionally, I have worked in Technical Associate roles at companies such as 247.AI and Foundever, where I handled customer queries and technical support for clients like Verizon. These roles taught me the importance of empathy, clarity in communication, and efficiency in problem resolution. While these experiences shaped my soft skills, they also reinforced my determination to pursue a role where my passion for data could be applied more directly.<br>
+
+<p>I strongly believe that data is at the core of every successful organization. Businesses today thrive on insights that guide decision-making, optimize processes, and uncover new opportunities. In essence, I am a professional who combines a strong academic foundation and technical skills in analytics with a deep enthusiasm for learning and contributing. My vision is to serve my employer better through data-driven decision-making, make a positive impact on business outcomes, and grow into a leader in the field of Data Analytics.</p>
+
+                <p.>NOTE: Try Asking: <br>
+tell me about yourself , <br>
+who are you , <br>
+what is your experience ,<br>
+what are your skills . <br>
+
             </p>
         </div>
     </section>
 
     <footer>
-        <p>&copy; 2024 AI Chatbot. All rights reserved.</p>
+        <p>&copy; 2025 AI Chatbot. All rights reserved.</p>
     </footer>
 
     <script>
         let voiceAssistanceEnabled = true; // Track the voice assistance state
-
+        let isRecording = false; // Track recording state
+        let recognition; // Speech recognition instance
         function showSection(sectionId) {
             document.getElementById('landing').classList.add('hidden');
             document.getElementById('chatbot').classList.add('hidden');
@@ -215,10 +254,16 @@
             const sendBtn = document.getElementById('send-btn');
             const voiceBtn = document.getElementById('voice-btn');
             const toggleVoiceBtn = document.getElementById('toggle-voice-btn');
-
+            const clearChatBtn = document.getElementById('clear-chat-btn');
             sendBtn.addEventListener('click', function() {
                 sendMessage();
             });
+            // Initialize send button state
+            sendBtn.disabled = true;
+
+            // Event Listeners
+            clearChatBtn.addEventListener('click', () => chatBox.innerHTML = '');
+            userInput.addEventListener('input', () => sendBtn.disabled = userInput.value.trim() === '');
 
             voiceBtn.addEventListener('click', function() {
                 startVoiceRecognition();
@@ -240,7 +285,7 @@
                 if (message !== '') {
                     displayMessage('You', message);
                     userInput.value = '';
-                    
+
                     fetch('/api/chatbot', {
                         method: 'POST',
                         headers: {
@@ -251,66 +296,96 @@
                     .then(response => response.json())
                     .then(data => {
                         const botResponse = data.bot_response;
-                        displayMessage('🤖Chatbot', botResponse);
+                        displayMessage('Daniel', botResponse);
                         if (voiceAssistanceEnabled) {
                             speak(botResponse); // Speak out the bot's response if voice assistance is enabled
                         }
                     })
                     .catch(error => {
                         console.error('Error:', error);
-                        displayMessage('🤖Chatbot', 'Sorry, there was an error processing your request.');
+                        displayMessage('Daniel', 'Sorry, there was an error processing your request.');
                     });
                 }
             }
 
             function startVoiceRecognition() {
-                if (window.SpeechRecognition || window.webkitSpeechRecognition) {
-                    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+                if (!recognition) {
+                    recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
                     recognition.lang = 'en-US';
+                    recognition.continuous = false;
+                    recognition.interimResults = false;
 
-                    // Change the button to indicate recording
-                    voiceBtn.innerHTML = '<i class="fas fa-microphone-slash"></i>'; // Change icon to microphone slash
-                    voiceBtn.classList.add('recording'); // Add recording class to change color
-
-                    // Start speech recognition
-                    recognition.start();
-
-                    // Event handler for recognition results
-                    recognition.onresult = function(event) {
+                    recognition.onresult = (event) => {
                         const transcript = event.results[0][0].transcript.trim();
                         userInput.value = transcript;
                         sendMessage();
                     };
 
-                    // Event handler for recognition end
-                    recognition.onend = function() {
-                        voiceBtn.innerHTML = '<i class="fas fa-microphone"></i>'; // Change icon back to microphone
-                        voiceBtn.classList.remove('recording'); // Remove recording class to change color back
+                    recognition.onend = () => {
+                        voiceBtn.innerHTML = '<i class="fas fa-microphone"></i>';
+                        voiceBtn.classList.remove('recording');
+                        isRecording = false;
                     };
 
-                    // Event handler for recognition errors
-                    recognition.onerror = function(event) {
+                    recognition.onerror = (event) => {
                         console.error('Recognition error:', event.error);
-                        displayMessage('🤖Chatbot', 'Sorry, there was an error with voice recognition.');
-                        voiceBtn.innerHTML = '<i class="fas fa-microphone"></i>'; // Change icon back to microphone
-                        voiceBtn.classList.remove('recording'); // Remove recording class to change color back
+                        displayMessage('Daniel', 'Voice recognition error.');
+                        voiceBtn.innerHTML = '<i class="fas fa-microphone"></i>';
+                        voiceBtn.classList.remove('recording');
+                        isRecording = false;
                     };
+                }
+
+                if (isRecording) {
+                    recognition.stop();
+                    isRecording = false;
+                    voiceBtn.classList.remove('recording');
                 } else {
-                    alert('Speech recognition not supported in this browser.');
+                    recognition.start();
+                    isRecording = true;
+                    voiceBtn.innerHTML = '<i class="fas fa-microphone-slash"></i>';
+                    voiceBtn.classList.add('recording');
                 }
             }
 
-            function toggleVoiceAssistance() {
-                voiceAssistanceEnabled = !voiceAssistanceEnabled; // Toggle the state
-                toggleVoiceBtn.innerHTML = voiceAssistanceEnabled ? '<i class="fas fa-volume-up"></i>' : '<i class="fas fa-volume-mute"></i>'; // Change icon
-            }
+            function sendMessage() {
+                const message = userInput.value.trim();
+                if (!message) return;
 
+                displayMessage('You', message);
+                userInput.value = '';
+                sendBtn.disabled = true;
+                document.getElementById('loading').classList.remove('hidden');
+
+                fetch('/api/chatbot', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: message })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    displayMessage('Daniel', data.bot_response);
+                    if (voiceAssistanceEnabled) speak(data.bot_response);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    displayMessage('Daniel', 'Error processing request.');
+                })
+                .finally(() => {
+                    document.getElementById('loading').classList.add('hidden');
+                    sendBtn.disabled = false;
+                });
+            }
             function displayMessage(sender, message) {
                 const messageElement = document.createElement('div');
                 messageElement.classList.add(sender === 'You' ? 'user-message' : 'bot-message');
                 messageElement.textContent = sender + ': ' + message;
                 chatBox.appendChild(messageElement);
                 chatBox.scrollTop = chatBox.scrollHeight; // Scroll to the bottom
+            }
+            function toggleVoiceAssistance() {
+                voiceAssistanceEnabled = !voiceAssistanceEnabled; // Toggle the state
+                toggleVoiceBtn.innerHTML = voiceAssistanceEnabled ? '<i class="fas fa-volume-up"></i>' : '<i class="fas fa-volume-mute"></i>'; // Change icon
             }
 
             function speak(text) {
